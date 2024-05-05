@@ -4,7 +4,7 @@ from tortoise.contrib.pydantic import pydantic_model_creator
 
 class Todos(models.Model):
     id = fields.UUIDField(pk=True)
-    content = fields.CharField(max_length=255)
+    content = fields.CharField(max_length=254)
     status = fields.IntField(max_length=1,default=0)
 
 

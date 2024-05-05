@@ -49,7 +49,8 @@ export default function TodoPage() {
     try {
       const newStatus = currentStatus === 0 ? 1 : 0;
       console.log('New status:', content);
-      const updatedTodo = await updateTodoStatus(todoId, newStatus,content);
+      const updated= JSON.stringify({ todoId,content,newStatus })
+      const updatedTodo = await updateTodoStatus(updated);
       if (updatedTodo) {
         const updatedTodos = todosData.map(todo => {
           if (todo.id === todoId) {
@@ -59,6 +60,8 @@ export default function TodoPage() {
         });
         console.log('Updated todos:', updatedTodos);
         setTodosData(updatedTodos);
+        
+
       }
     } catch (error) {
       console.error('Error updating todo status:', error);

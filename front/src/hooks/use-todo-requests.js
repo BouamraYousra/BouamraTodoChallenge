@@ -95,28 +95,30 @@ export function useDeleteTodo() {
     }
 }
 
-
 export function useUpdateTodoStatus() {
     const [loading, setLoading] = useState(false);
 
-    async function updateTodoStatus(todoId, currentStatus, content) {
+    async function updateTodoStatus(updated) {
         let data = null;
-        console.log('Content:hi', todoId);
+        console.log('Content:', updated);
+        const { content, newStatus, todoId } = JSON.parse(updated);
+        const statusup = newStatus === 0 ? 1 : 0;
 
         setLoading(true);
+        console.log('Loading state:', loading);
         try {
             // Determine the new status based on the current status
-            const newStatus = currentStatus === 1 ? 0 : 1;
             const response = await fetch(`${config.apiEndpoint}/todostatus/${todoId}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ content, status: newStatus }),
+                body: JSON.stringify({ content,status:statusup }),
             });
-            console.log(JSON.stringify({ content, status: newStatus }))
             if (!response.ok) {
-                throw new Error('Failed to update task status');
+                throw new Error(`Failed to update task status for ID: ${todoId}, Content: ${content}, New Status: ${statusup},JSON.stringify({ status:newStatus })`);
+    
+
             }
 
             data = await response.json();
